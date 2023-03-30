@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>P&amp;O Cruises: Cruise Holidays 2023, 2024 &amp; 2025</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="https://www.pocruises.com/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" rel="stylesheet" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        font-size: 15px;
+      }
+
+      .menu li {
+        display: inline-block;
+        margin-right: 20px;
+      }
+      .menu li:last-child {
+        margin-right: 0;
+      }
+      .menu a,
+      .menu i {
+        color: #666666;
+        text-decoration: none;
+      }
+      .menu a:hover {
+        text-decoration: underline;
+      }
+    </style>
+    <script>
+      !(function (o, p, s, e, c) {
+        var i,
+          a,
+          h,
+          u = [],
+          d = []
+        function t() {
+          var t = 'You must provide a supported major version.'
+          try {
+            if (!c) throw new Error(t)
+            var e,
+              n = 'https://cdn.smooch.io/',
+              r = 'smooch'
+            if ((e = 'string' == typeof this.response ? JSON.parse(this.response) : this.response).url) {
+              var o = p.getElementsByTagName('script')[0],
+                s = p.createElement('script')
+              s.async = !0
+              var i = c.match(/([0-9]+).?([0-9]+)?.?([0-9]+)?/),
+                a = i && i[1]
+              if (i && i[3]) s.src = n + r + '.' + c + '.min.js'
+              else {
+                if (!(4 <= a && e['v' + a])) throw new Error(t)
+                s.src = e['v' + a]
+              }
+              o.parentNode.insertBefore(s, o)
+            }
+          } catch (e) {
+            e.message === t && console.error(e)
+          }
+        }
+        ;(o[s] = {
+          init: function () {
+            i = arguments
+            var t = {
+              then: function (e) {
+                return d.push({ type: 't', next: e }), t
+              },
+              catch: function (e) {
+                return d.push({ type: 'c', next: e }), t
+              }
+            }
+            return t
+          },
+          on: function () {
+            u.push(arguments)
+          },
+          render: function () {
+            a = arguments
+          },
+          destroy: function () {
+            h = arguments
+          }
+        }),
+          (o.__onWebMessengerHostReady__ = function (e) {
+            if ((delete o.__onWebMessengerHostReady__, (o[s] = e), i))
+              for (var t = e.init.apply(e, i), n = 0; n < d.length; n++) {
+                var r = d[n]
+                t = 't' === r.type ? t.then(r.next) : t.catch(r.next)
+              }
+            a && e.render.apply(e, a), h && e.destroy.apply(e, h)
+            for (n = 0; n < u.length; n++) e.on.apply(e, u[n])
+          })
+        var n = new XMLHttpRequest()
+        n.addEventListener('load', t),
+          n.open('GET', 'https://' + e + '.webloader.smooch.io/', !0),
+          (n.responseType = 'json'),
+          n.send()
+      })(window, document, 'Smooch', '64241b377b5aa501178b017a', '5')
+    </script>
+  </head>
+  <body>
+    <script>
+      var triggered = false
+      var scrolled = false
+      function scrollFunction() {
+        if (scrolled == false) {
+          triggered = true
+          Smooch.open()
+          scrolled = true
+        }
+      }
+      window.onscroll = scrollFunction
+    </script>
+    <script>
+      Smooch.init({
+        integrationId: '64241b377b5aa501178b017a',
+        soundNotificationEnabled: false,
+        canUserSeeConversationList: false,
+        notificationChannelPromptEnabled: false,
+        integrationOrder: [],
+        businessName: 'P&O Cruises',
+        businessIconUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8c1gBlh3K8dxUpLVFTLzyGmM7nDtqxEf8Alfa3OBjRw&s',
+        customColors: {
+          brandColor: 'B10F25',
+          conversationColor: 'B10F25',
+          actionColor: 'B10F25'
+        },
+        delegate: {
+          beforeDisplay(message, data) {
+            if (data.conversation.id === data.conversation.id && message.metadata && message.metadata.hidden) {
+              return null
+            }
+            return message
+          }
+        }
+        // Update HTML to allow click events on New Conversation button
+      }).then(() => {
+        var iframe = document.getElementById('web-messenger-container')
+        iframedocument = iframe.contentDocument || iframe.contentWindow.document
+        iframedocument.addEventListener(
+          'click',
+          function (evt) {
+            initializeButton(iframedocument)
+          },
+          false
+        )
+      })
+    </script>
+    <script>
+      // Create a conversation when the widget is opened the first time
+      Smooch.on('widget:opened', () => {
+        if (Smooch.getConversations().length == 0) {
+          Smooch.createConversation({
+            metadata: {
+              language: 'en-gb',
+              webpage: window.location.href
+            }
+          }).then((conversation) => {
+            // Your code after receiving the current user's new conversation
+            Smooch.sendMessage(
+              {
+                type: 'text',
+                text: 'Hi',
+                metadata: {
+                  hidden: true
+                }
+              },
+              conversation.id
+            )
+          })
+        } else
+          Smooch.getConversationById().then(function (conversation) {
+            Smooch.sendMessage(
+              {
+                type: 'text',
+                text: 'Hi',
+                metadata: {
+                  hidden: true
+                }
+              },
+              conversation.id
+            )
+          })
+      })
+    </script>
+    <script>
+      // Create a conversation when user clicks "New Conversation"
+      function initializeButton(iframedocument) {
+        var conversationFooter = iframedocument.getElementsByClassName('conversation-group-footer')[0]
+        if (conversationFooter) {
+          conversationFooter.innerHTML = '<button onclick=parent.createConversation()>New Conversation</button>'
+        }
+      }
+      function createConversation() {
+        if (Smooch.isOpened()) {
+          Smooch.createConversation({
+            metadata: {
+              language: 'en-gb',
+              webpage: window.location.href
+            }
+          }).then((conversation) => {
+            Smooch.loadConversation(conversation.id)
+          })
+        }
+      }
+    </script>
+    <div style="position: relative">
+      <img src="website.jpg" style="position: absolute; width: 100%; left: 0; top: 0; z-index: 1" />
+      <div
+        style="
+          position: absolute;
+          top: 10px;
+          left: 0;
+          right: 0;
+          width: 67.5%;
+          margin: 0 auto;
+          z-index: 2;
+          text-align: right;
+        "
+      >
+        <ul class="menu">
+          <li><i class="fas fa-search"></i> <a href="#">Search</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Travel Requirements</a></li>
+          <li><i class="fa-regular fa-heart"></i> <a href="#">0</a></li>
+          <li><a href="#">Login</a> | <a href="#">Register</a></li>
+          <li>
+            <i class="fa-regular fa-circle-question"></i> <a href="https://z3n-pocruises.zendesk.com/hc/en-us">Help</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
