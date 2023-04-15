@@ -174,23 +174,9 @@
                 </form>
               </div>
             </div>
-            <div id="thank-you" style="display: none">
-              <div class="row text-center">
-                <div class="col-lg-12">
-                  <br /><br />
-                  <h2 style="color: #e5456f">Thank you for your payment!</h2>
-                  <p style="font-size: 20px; color: #5c5c5c">We've sent you a confirmation email.</p>
-                  <br /><br />
-                </div>
-              </div>
-              <br />
-              <button id="confirm-button" class="btn btn-success float-right text-right">Ok</button>
-            </div>
             <div id="presentment" class="card-footer">
               Charge amount: <span id="charge-amount">$20.00</span>&nbsp;&nbsp;&nbsp;
-              <button id="pay-button" onclick="payNow()" class="btn btn-success float-right text-right">
-                Complete purchase
-              </button>
+              <button id="confirm-button" class="btn btn-success float-right text-right">Complete purchase</button>
             </div>
             <!-- <div id="post-payment" class="card-footer" style="display:none;">
           <button id="confirm-button" class="btn btn-success float-right text-right">Ok</button>
@@ -217,15 +203,6 @@
       let locationHash = window.location.hash.split('#')
       let conversationId = locationHash[1]
 
-      function payNow() {
-        $('#load').show()
-        setTimeout(function () {
-          $('#load').hide()
-          $('#payment-card').hide()
-          $('#presentment').hide()
-          $('#thank-you').show()
-        }, 1000)
-      }
       $(document).ready(function () {
         function getParameterByName(name, url = window.location.href) {
           name = name.replace(/[\[\]]/g, '\\$&')
