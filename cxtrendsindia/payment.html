@@ -208,6 +208,10 @@
       </div>
     </section>
     <script>
+      //Get Conversations ID
+      let locationHash = window.location.hash.split('#')
+      let conversationId = locationHash[1]
+
       function payNow() {
         document.getElementById('payment-card').style.display = 'none'
         document.getElementById('thank-you').style.display = 'block'
