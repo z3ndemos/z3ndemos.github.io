@@ -43,13 +43,13 @@
                     <td class="text-center">{{ dateToString(ticket.updated_at) }}</td>
                     <td class="text-center">
                       <v-chip
-                        :color="status[ticket.status].color"
+                        :color="ticketStatus(ticket.status).color"
                         class="item-status"
-                        :style="`color: ${status[ticket.status].text}`"
+                        :style="`color: ${ticketStatus(ticket.status).text}`"
                         label
                         x-small
                       >
-                        {{ status[ticket.status].name }}
+                        {{ ticketStatus(ticket.status).name }}
                       </v-chip>
                     </td>
                   </tr>

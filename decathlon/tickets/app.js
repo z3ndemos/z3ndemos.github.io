@@ -78,6 +78,19 @@ const vm = new Vue({
   /////////////////////////////////////////////////////////////////////////////
 
   methods: {
+    // Ticket status
+    ticketStatus: function (status) {
+      if (this.status[status]) {
+        return this.status[status]
+      }
+
+      return {
+        name: status[0].toUpperCase() + status.substr(1).toLowerCase(),
+        color: '#0277BD',
+        text: '#FFFFFF'
+      }
+    },
+
     // Load app initial data
     loadInitialData: async function () {
       try {
