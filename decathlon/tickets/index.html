@@ -30,8 +30,8 @@
               <thead>
                 <th>ID</th>
                 <th>Subject</th>
-                <th>Created at</th>
-                <th>Updated at</th>
+                <th class="text-center">Created at</th>
+                <th class="text-center">Updated at</th>
                 <th class="text-center">Status</th>
               </thead>
               <tbody>
@@ -39,8 +39,8 @@
                   <tr v-for="(ticket, tIndex) in tickets" :key="`ticket-${tIndex}`">
                     <td>#{{ ticket.id }}</td>
                     <td>{{ ticket.subject }}</td>
-                    <td>{{ dateToString(ticket.created_at) }}</td>
-                    <td>{{ dateToString(ticket.updated_at) }}</td>
+                    <td class="text-center">{{ dateToString(ticket.created_at) }}</td>
+                    <td class="text-center">{{ dateToString(ticket.updated_at) }}</td>
                     <td class="text-center">
                       <v-chip
                         :color="status[ticket.status].color"
