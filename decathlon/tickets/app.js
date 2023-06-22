@@ -63,6 +63,12 @@ const vm = new Vue({
       }
     },
 
+    // New ticket
+    newTicket: {
+      subject: null,
+      body: null
+    },
+
     // User tickets
     tickets: [],
 
@@ -70,7 +76,10 @@ const vm = new Vue({
     requester: null,
 
     // App loader
-    loading: false
+    loading: {
+      newTicket: false,
+      tickets: false
+    }
   },
 
   /////////////////////////////////////////////////////////////////////////////
@@ -91,22 +100,52 @@ const vm = new Vue({
       }
     },
 
-    // Load app initial data
-    loadInitialData: async function () {
+    // Get tickets
+    getTickets: async function () {
       try {
-        this.loading = true
-
-        const urlParams = new URLSearchParams(window.location.search)
-        this.requester = urlParams.get('requester')
-
         const ticketsData = await fetch(`${this.ticketsEndpoint}/tickets?requester=${this.requester}`)
         const tickets = await ticketsData.json()
 
         this.tickets = Array.isArray(tickets) ? tickets.sort((a, b) => b.id - a.id) : []
       } catch (err) {
         console.error(err)
+      }
+    },
+
+    // Create ticket
+    createTicket: async function () {
+      try {
+        this.$set(this.loading, 'newTicket', true)
+
+        await fetch(`${this.ticketsEndpoint}/tickets?requester=${this.requester}`, {
+          method: 'POST',
+          body: JSON.stringify({
+            subject: this.newTicket.subject,
+            body: this.newTicket.body
+          })
+        })
+
+        await this.getTickets()
+      } catch (err) {
+        console.error(err)
       } finally {
-        this.loading = false
+        this.$set(this.loading, 'newTicket', false)
+      }
+    },
+
+    // Load app initial data
+    loadInitialData: async function () {
+      try {
+        this.$set(this.loading, 'tickets', true)
+
+        const urlParams = new URLSearchParams(window.location.search)
+        this.requester = urlParams.get('requester')
+
+        await this.getTickets()
+      } catch (err) {
+        console.error(err)
+      } finally {
+        this.$set(this.loading, 'tickets', false)
       }
     }
   },
