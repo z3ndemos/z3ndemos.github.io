@@ -90,6 +90,7 @@ const vm = new Vue({
         this.tickets = await ticketsData.json()
       } catch (err) {
         console.error(err)
+        this.tickets = []
       } finally {
         this.loading = false
       }
