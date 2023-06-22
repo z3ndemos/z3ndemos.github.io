@@ -126,6 +126,11 @@ const vm = new Vue({
         })
 
         await this.getTickets()
+
+        this.newTicket = {
+          subject: null,
+          body: null
+        }
       } catch (err) {
         console.error(err)
       } finally {
