@@ -87,10 +87,11 @@ const vm = new Vue({
         this.requester = urlParams.get('requester')
 
         const ticketsData = await fetch(`${this.ticketsEndpoint}/tickets?requester=${this.requester}`)
-        this.tickets = await ticketsData.json()
+        const tickets = await ticketsData.json()
+
+        this.tickets = Array.isArray(tickets) ? tickets : []
       } catch (err) {
         console.error(err)
-        this.tickets = []
       } finally {
         this.loading = false
       }
