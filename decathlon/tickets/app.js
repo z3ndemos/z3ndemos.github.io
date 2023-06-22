@@ -102,7 +102,7 @@ const vm = new Vue({
         const ticketsData = await fetch(`${this.ticketsEndpoint}/tickets?requester=${this.requester}`)
         const tickets = await ticketsData.json()
 
-        this.tickets = Array.isArray(tickets) ? tickets : []
+        this.tickets = Array.isArray(tickets) ? tickets.sort((a, b) => b.id - a.id) : []
       } catch (err) {
         console.error(err)
       } finally {
