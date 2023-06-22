@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Required CSS modules -->
+    <link rel="icon" href="https://www.decathlon.co.uk/render/favicon-96x96.1d72df8f08484c5c2852.png" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.4/dist/vuetify.min.css" rel="stylesheet" />
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <v-app id="app" v-cloak>
+      <v-container class="app-container">
+        <v-row no-gutters>
+          <v-col cols="6">
+            <v-img
+              max-width="200"
+              src="https://theme.zdassets.com/theme_assets/16688536/b2f6e1900296ceefbe9fc8af41012d5ca0b85476.png"
+            ></v-img>
+          </v-col>
+          <v-col cols="6" class="text-right">
+            <strong>{{ requester }}</strong><br />
+            Support tickets
+          </v-col>
+        </v-row>
+        <template v-if="!loading">
+          <v-simple-table class="mt-6" dense>
+            <template v-slot:default>
+              <thead>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>Created at</th>
+                <th>Updated at</th>
+                <th class="text-center">Status</th>
+              </thead>
+              <tbody>
+                <template v-if="tickets.length">
+                  <tr v-for="(ticket, tIndex) in tickets" :key="`ticket-${tIndex}`">
+                    <td>#{{ ticket.id }}</td>
+                    <td>{{ ticket.subject }}</td>
+                    <td>{{ dateToString(ticket.created_at) }}</td>
+                    <td>{{ dateToString(ticket.updated_at) }}</td>
+                    <td class="text-center">
+                      <v-chip
+                        :color="status[ticket.status].color"
+                        class="item-status"
+                        :style="`color: ${status[ticket.status].text}`"
+                        label
+                        x-small
+                      >
+                        {{ status[ticket.status].name }}
+                      </v-chip>
+                    </td>
+                  </tr>
+                </template>
+                <tr v-else>
+                  <td colspan="5" class="text-center py-2">
+                    <v-img height="100" src="404.svg" contain></v-img>
+                    <p>This user has not submitted any ticket yet.</p>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </template>
+        <div v-else class="loader-container">
+          <v-skeleton-loader class="mx-auto border" max-width="100%" type="table"></v-skeleton-loader>
+        </div>
+      </v-container>
+    </v-app>
+
+    <!-- Required JS modules -->
+    <script src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.4/dist/vuetify.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
