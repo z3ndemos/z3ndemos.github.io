@@ -117,16 +117,13 @@ const vm = new Vue({
       try {
         this.$set(this.loading, 'newTicket', true)
 
-        const response = await fetch(`${this.ticketsEndpoint}/tickets?requester=${this.requester}`, {
+        await fetch(`${this.ticketsEndpoint}/tickets?requester=${this.requester}`, {
           method: 'POST',
           body: JSON.stringify({
             subject: this.newTicket.subject,
             body: this.newTicket.body
           })
         })
-
-        const test = await response.json()
-        console.log(test)
 
         await this.getTickets()
       } catch (err) {
