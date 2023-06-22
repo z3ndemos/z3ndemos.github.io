@@ -127,10 +127,10 @@ const vm = new Vue({
 
 // Return date as a string
 function dateToString(date) {
-  return (strDate = new Date(date).toLocaleDateString('en-US', {
+  return new Date(date).toLocaleDateString('en-US', {
     weekday: 'short',
     year: 'numeric',
     month: 'short',
     day: 'numeric'
-  }))
+  })
 }
