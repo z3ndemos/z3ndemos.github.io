@@ -101,9 +101,7 @@
             </template>
           </v-simple-table>
         </template>
-        <div v-else class="loader-container">
-          <v-skeleton-loader class="mx-auto border" max-width="100%" type="table"></v-skeleton-loader>
-        </div>
+        <v-skeleton-loader v-else width="100%" type="table-tbody"></v-skeleton-loader>
       </v-container>
     </v-app>
 

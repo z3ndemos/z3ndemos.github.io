@@ -10,11 +10,8 @@
   max-width: 800px;
 }
 
-#app .loader-container {
-  overflow: hidden;
-  display: block;
-  width: 816px;
-  margin-left: -16px;
+#app .v-skeleton-loader__table-tbody {
+  padding: 0;
 }
 
 #app p {
