@@ -13,6 +13,7 @@
         font-size: 15px;
       }
     </style>
+    <!-- SunCo widget -->
     <script>
       !(function (o, p, s, e, c) {
         var i,
@@ -81,10 +82,8 @@
           n.open('GET', 'https://' + e + '.webloader.smooch.io/', !0),
           (n.responseType = 'json'),
           n.send()
-      })(window, document, 'Smooch', '64241b377b5aa501178b017a', '5')
+      })(window, document, 'Smooch', '640b0d9e751dc50119794404', '5')
     </script>
-  </head>
-  <body>
     <script>
       Smooch.init({
         integrationId: '640b0d9e751dc50119794404',
@@ -99,8 +98,87 @@
           conversationColor: '0099ff',
           actionColor: '0099ff'
         }
+        // Update HTML to allow click events on New Conversation button
+      }).then(() => {
+        var iframe = document.getElementById('web-messenger-container')
+        iframedocument = iframe.contentDocument || iframe.contentWindow.document
+        iframedocument.addEventListener(
+          'click',
+          function (evt) {
+            initializeButton(iframedocument)
+          },
+          false
+        )
       })
     </script>
+    <script>
+      // Create a conversation when the widget is opened the first time
+      Smooch.on('widget:opened', () => {
+        if (Smooch.getConversations().length == 0) {
+          Smooch.createConversation({
+            metadata: {
+              language: 'en-gb',
+              webpage: window.location.href
+            }
+          }).then((conversation) => {
+            CobrowseIO.customData = {
+              zendesk_web_user_id: Smooch.getConversations()[0].participants[0].userId
+            }
+            console.log(conversation)
+          })
+        }
+      })
+    </script>
+    <script>
+      // Create a conversation when user clicks "New Conversation"
+      function initializeButton(iframedocument) {
+        var conversationFooter = iframedocument.getElementsByClassName('conversation-group-footer')[0]
+        if (conversationFooter) {
+          conversationFooter.innerHTML = '<button onclick=parent.createConversation()>New Conversation</button>'
+        }
+      }
+      function createConversation() {
+        if (Smooch.isOpened()) {
+          Smooch.createConversation({
+            metadata: {
+              language: 'en-gb',
+              webpage: window.location.href
+            }
+          }).then((conversation) => {
+            Smooch.loadConversation(conversation.id)
+          })
+        }
+      }
+    </script>
+    <!-- Cobrowse snippet -->
+    <script>
+      ;(function (w, t, c, p, s, e) {
+        p = new Promise(function (r) {
+          w[c] = {
+            client: function () {
+              if (!s) {
+                s = document.createElement(t)
+                s.src = 'https://js.cobrowse.io/CobrowseIO.js'
+                s.async = 1
+                e = document.getElementsByTagName(t)[0]
+                e.parentNode.insertBefore(s, e)
+                s.onload = function () {
+                  r(w[c])
+                }
+              }
+              return p
+            }
+          }
+        })
+      })(window, 'script', 'CobrowseIO')
+
+      CobrowseIO.license = 'Lomb1xJcbZzorw'
+      CobrowseIO.client().then(function () {
+        CobrowseIO.start()
+      })
+    </script>
+  </head>
+  <body>
     <div style="position: relative">
       <img src="img/checkout.png" style="position: absolute; width: 100%; left: 0; top: 0; z-index: 1" />
     </div>
