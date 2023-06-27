@@ -29,6 +29,9 @@ const vm = new Vue({
     // Tickets endpoint
     ticketsEndpoint: 'https://tbugkc3k10.execute-api.eu-west-1.amazonaws.com/decathlon',
 
+    // Hidden tickets based on status
+    hiddenTickets: ['solved', 'closed'],
+
     // Available ticket statuses
     status: {
       new: {
@@ -63,11 +66,8 @@ const vm = new Vue({
       }
     },
 
-    // New ticket
-    newTicket: {
-      subject: null,
-      body: null
-    },
+    // New comment
+    newComment: null,
 
     // User tickets
     tickets: [],
@@ -77,9 +77,16 @@ const vm = new Vue({
 
     // App loader
     loading: {
-      newTicket: false,
-      tickets: false
-    }
+      tickets: false,
+      comments: null,
+      newComment: false
+    },
+
+    // Latest comments dialog
+    showingLatestComments: false,
+    selectedTicket: null,
+    latestComments: [],
+    ticketUsers: []
   },
 
   /////////////////////////////////////////////////////////////////////////////
@@ -104,37 +111,62 @@ const vm = new Vue({
     getTickets: async function () {
       try {
         const ticketsData = await fetch(`${this.ticketsEndpoint}/tickets?requester=${this.requester}`)
-        const tickets = await ticketsData.json()
+        const tickets = (await ticketsData.json())?.tickets
 
-        this.tickets = Array.isArray(tickets) ? tickets.sort((a, b) => b.id - a.id) : []
+        this.tickets = Array.isArray(tickets)
+          ? tickets.filter((obj) => !this.hiddenTickets.includes(obj.status)).sort((a, b) => b.id - a.id)
+          : []
       } catch (err) {
         console.error(err)
       }
     },
 
-    // Create ticket
-    createTicket: async function () {
-      try {
-        this.$set(this.loading, 'newTicket', true)
+    // Show comments
+    showComments: async function (ticketId, params) {
+      const loading = params?.loading
 
-        await fetch(`${this.ticketsEndpoint}/tickets?requester=${this.requester}`, {
+      if (!this.loading.comments) {
+        try {
+          this.$set(this.loading, 'comments', loading ? ticketId : null)
+
+          const apiData = await (
+            await fetch(`${this.ticketsEndpoint}/comments?requester=${this.requester}&ticket=${ticketId}`)
+          ).json()
+
+          const comments = apiData.comments.filter((obj) => obj.public).sort((a, b) => b.id - a.id)
+          const users = apiData.users
+
+          this.$set(this, 'selectedTicket', ticketId)
+          this.$set(this, 'latestComments', comments)
+          this.$set(this, 'ticketUsers', users)
+        } catch (err) {
+          console.error(err)
+        } finally {
+          this.$set(this.loading, 'comments', null)
+          this.$set(this, 'showingLatestComments', true)
+        }
+      }
+    },
+
+    // Create comment
+    createComment: async function () {
+      try {
+        this.$set(this.loading, 'newComment', true)
+
+        await fetch(`${this.ticketsEndpoint}/comments?requester=${this.requester}&ticket=${this.selectedTicket}`, {
           method: 'POST',
           body: JSON.stringify({
-            subject: this.newTicket.subject,
-            body: this.newTicket.body
+            body: this.newComment
           })
         })
 
-        await this.getTickets()
+        await this.showComments(this.selectedTicket)
 
-        this.newTicket = {
-          subject: null,
-          body: null
-        }
+        this.$set(this, 'newComment', null)
       } catch (err) {
         console.error(err)
       } finally {
-        this.$set(this.loading, 'newTicket', false)
+        this.$set(this.loading, 'newComment', false)
       }
     },
 
