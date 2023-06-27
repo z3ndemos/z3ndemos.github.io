@@ -11,6 +11,31 @@
         padding: 0;
         font-family: sans-serif;
         font-size: 15px;
+        background: #eff1f3;
+      }
+
+      .form-container {
+        width: 230px;
+        margin: 0 auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+      }
+
+      .form-row {
+        display: flex;
+      }
+
+      .form-col {
+        flex: 1;
+      }
+
+      .form-input {
+        height: 55px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-right: 5px;
+        box-sizing: border-box;
+        width: 100%;
       }
     </style>
     <!-- SunCo widget -->
@@ -179,8 +204,42 @@
     </script>
   </head>
   <body>
-    <div style="position: relative">
-      <img src="img/checkout.png" style="position: absolute; width: 100%; left: 0; top: 0; z-index: 1" />
+    <div style="background: url(img/checkout-header.png)">
+      <img src="img/checkout-header.png" style="display: block; width: 100%" />
+    </div>
+    <div style="margin: 0; background: #eff1f3">
+      <div style="display: block; width: 1240px; margin: 0 auto">
+        <img src="img/checkout-container-01.png" style="display: block; width: 100%" />
+        <div style="position: relative">
+          <img
+            src="img/checkout-container-02.png"
+            style="position: absolute; left: 0; top: 0; display: block; width: 100%; z-index: 0"
+          />
+          <div style="display: block; position: absolute; top: 80px; left: 50px; z-index: 1">
+            <div class="form-container">
+              <div class="form-row">
+                <div class="form-col">
+                  <input type="text" class="form-input" placeholder="Numéro de la carte" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-col">
+                  <input type="text" class="form-input" placeholder="Titulaire de la carte" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-col" style="width: 50%">
+                  <input type="text" class="form-input" placeholder="MM / AA" />
+                </div>
+                <div class="form-col" style="width: 50%">
+                  <input type="text" class="form-input" placeholder="CVV" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <img src="img/checkout-container-03.png" style="display: block; width: 100%" />
+      </div>
     </div>
   </body>
 </html>
