@@ -116,7 +116,7 @@ const vm = new Vue({
     // Output: array with valid pages
     //  (will not return first and last page if they are not between the range)
     validPages: function () {
-      const maxPages = 5
+      const maxPages = 10
       const adjacents = Math.floor(maxPages / 2) * 2 + 1
       const firstPage =
         Math.max(0, Math.min(this.totalPages - adjacents, this.currentPage - Math.ceil(adjacents / 2))) + 1
