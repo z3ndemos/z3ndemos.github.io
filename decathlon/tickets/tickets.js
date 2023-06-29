@@ -75,10 +75,49 @@ const vm = new Vue({
     // Requester email
     requester: null,
 
+    // Pagination
+    currentPage: 1,
+    pageSize: 15,
+
     // App loader
     loading: {
       newTicket: false,
       tickets: false
+    }
+  },
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Computed
+  /////////////////////////////////////////////////////////////////////////////
+
+  computed: {
+    // Return all the tickets available for the current page
+    currentPageTickets: function () {
+      const tickets = this.tickets
+      const currentPage = this.currentPage
+      const pageSize = this.pageSize
+
+      return tickets.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+    },
+
+    // Return the number of pages available
+    totalPages: function () {
+      return Math.ceil(this.tickets.length / this.pageSize)
+    },
+
+    // Pages that need to be visible in the dynamic pagination
+    // Output: array with valid pages
+    //  (will not return first and last page if they are not between the range)
+    validPages: function () {
+      const maxPages = 5
+      const adjacents = Math.floor(maxPages / 2) * 2 + 1
+      const firstPage =
+        Math.max(0, Math.min(this.totalPages - adjacents, this.currentPage - Math.ceil(adjacents / 2))) + 1
+      const lastPage = firstPage + (maxPages - 1) < this.totalPages ? firstPage + (maxPages - 1) : this.totalPages
+
+      return Array(lastPage + 1 - firstPage)
+        .fill()
+        .map((v, i) => i + firstPage)
     }
   },
 
@@ -136,6 +175,16 @@ const vm = new Vue({
       } finally {
         this.$set(this.loading, 'newTicket', false)
       }
+    },
+
+    // Navigate to another page
+    changePage: function (page) {
+      this.currentPage = page
+
+      // Scroll to top
+      this.$nextTick(() => {
+        this.$vuetify.goTo(0)
+      })
     },
 
     // Load app initial data

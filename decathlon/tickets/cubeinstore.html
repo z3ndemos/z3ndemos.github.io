@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.4/dist/vuetify.min.css" rel="stylesheet" />
-    <link href="styles.css?2306271632" rel="stylesheet" />
+    <link href="styles.css?202306291345" rel="stylesheet" />
   </head>
   <body>
     <v-app id="app" v-cloak>
@@ -23,7 +23,9 @@
           </v-col>
         </v-row>
         <div class="mt-3">
-          <h2 class="mt-4 mb-1 font-weight-bold primary--text">Tickets</h2>
+          <h2 class="mt-4 mb-1 font-weight-bold primary--text">
+            Tickets <span v-if="!loading.tickets">({{ tickets.length }})</span>
+          </h2>
           <v-divider class="pt-2"></v-divider>
           <template v-if="!loading.tickets">
             <v-simple-table dense>
@@ -37,7 +39,7 @@
                 </thead>
                 <tbody>
                   <template v-if="tickets.length">
-                    <tr v-for="(ticket, tIndex) in tickets" :key="`ticket-${tIndex}`">
+                    <tr v-for="(ticket, tIndex) in currentPageTickets" :key="`ticket-${tIndex}`">
                       <td>#{{ ticket.id }}</td>
                       <td>
                         <a href="#" @click.prevent="showComments(ticket.id, { loading: true })">{{ ticket.subject }}</a>
@@ -74,6 +76,28 @@
                 </tbody>
               </template>
             </v-simple-table>
+
+            <!-- Pagination - Start -->
+            <ul v-if="totalPages > 1" class="pagination mt-3">
+              <template v-for="page in totalPages">
+                <li v-if="page === 1 || page === totalPages || validPages.includes(page)">
+                  <v-btn
+                    :color="currentPage === page ? 'primary' : 'grey lighten-2'"
+                    depressed
+                    :tabindex="loading.tickets ? -1 : 0"
+                    @click="changePage(page)"
+                    small
+                  >
+                    <template v-if="page === 1 && !validPages.includes(2)"> &laquo; First </template>
+                    <template v-else-if="page === totalPages && !validPages.includes(totalPages - 1)">
+                      Last &raquo;
+                    </template>
+                    <template v-else> {{ page }} </template>
+                  </v-btn>
+                </li>
+              </template>
+            </ul>
+            <!-- Pagination - End -->
           </template>
           <v-skeleton-loader v-else width="100%" type="table-tbody"></v-skeleton-loader>
         </div>
@@ -139,6 +163,6 @@
     <script src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.4/dist/vuetify.min.js"></script>
-    <script src="cubeinstore.js?2306271632"></script>
+    <script src="cubeinstore.js?202306291345"></script>
   </body>
 </html>
