@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('load', function () {
   const acc = document.getElementsByClassName('accordion')
 
   for (let i = 0; i < acc.length; i++) {
